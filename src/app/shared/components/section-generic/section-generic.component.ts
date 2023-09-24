@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-section-generic',
@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./section-generic.component.css']
 })
 export class SectionGenericComponent {
-
+  @Input() title: string = '';
+  @Input() mode: 'small' | 'big' = 'small'
+  @Input() dataTracks: Array<any> = [];
+  constructor() {}
 }

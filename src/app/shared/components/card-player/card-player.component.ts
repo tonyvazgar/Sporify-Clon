@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-card-player',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./card-player.component.css']
 })
 export class CardPlayerComponent {
-
+  @Input() track: string ='';
+  @Input() mode: string = '';
 }
