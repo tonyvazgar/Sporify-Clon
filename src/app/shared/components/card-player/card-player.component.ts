@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
+import { MultimediaService } from '@shared/services/multimedia.service';
 
 @Component({
   selector: 'app-card-player',
@@ -16,4 +17,11 @@ export class CardPlayerComponent {
     _id: ''
   };
   @Input() mode: string = '';
+
+  constructor(private _multimediaService: MultimediaService) {}
+
+  sendPlay(track: TrackModel): void {
+    console.log('Enviando cancion al reproductor//', track);
+    this._multimediaService.callback.emit(track);
+  }
 }
