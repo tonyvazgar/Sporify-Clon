@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { TrackService } from '@modules/tracks/services/track.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-side-bar',
@@ -14,10 +12,6 @@ export class SideBarComponent {
   } = { defaultOptions: [], accessLink: [] };
 
   customOptions: Array<any> = [];
-
-  listObservers$: Array<Subscription> = [];
-
-  constructor(private tracksServoce: TrackService) {}
 
   ngOnInit(): void {
     this.mainMenu.defaultOptions = [
@@ -59,20 +53,5 @@ export class SideBarComponent {
         router: ['/']
       }
     ]
-
-    const observerTracks$ = this.tracksServoce.dataTracksRandom$.subscribe(
-      data => {
-        console.log("Recibiendo la cancion random --> ", data);
-        this.customOptions.push({
-          name: data[0].name,
-          router: []
-        })
-      }
-    );
-    this.listObservers$ = [observerTracks$]
-  }
-
-  ngOnDestroy(): void {
-    this.listObservers$.forEach(observer => observer.unsubscribe());
   }
 }

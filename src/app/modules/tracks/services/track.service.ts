@@ -1,35 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
 import { Observable, of } from 'rxjs';
-import * as dataRaw from  '../../../data/tracks.json';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrackService {
 
-  dataTracksTrending$: Observable<TrackModel[]> = of([]);
+  private readonly URL = enviroment.api;
 
-  dataTracksRandom$: Observable<TrackModel[]> = of([]);
-  constructor() {
-    const { data } = (dataRaw as any).default;
-    this.dataTracksTrending$ = of(data);
-    this.dataTracksRandom$ = new Observable(
-      (observer) => {
+  constructor(private httpClient: HttpClient) {
 
-        const trackExample: TrackModel = {
-          name: 'achubikibi',
-          duration: 334,
-          _id: 45,
-          album: 'llnm',
-          cover: 'https://samanthaming.gumlet.io/tidbits/74-how-to-reverse-an-array.jpg.gz',
-          url: 'https://samanthaming.gumlet.io/tidbits/74-how-to-reverse-an-array.jpg.gz'
-        }
-
-        setTimeout(() => {
-          observer.next([trackExample]);
-        }, 2500)
-      }
-    );
   }
+
+  getAllTracks$(): Observable<any> {
+    return this.httpClient.get(`${this.URL}/tracks`);
+  }
+
 }
