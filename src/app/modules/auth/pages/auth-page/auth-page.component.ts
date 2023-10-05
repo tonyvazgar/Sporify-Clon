@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '@modules/auth/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -18,6 +19,7 @@ export class AuthPageComponent {
       this.errorSession = false;
       console.log("Sesion iniciada correcta")
       this.cookie.set('token', responseOk.tokenSession, 4, '/')
+      this.router.navigate(['', '/tracks'])
     }, error => {
       this.errorSession = true;
       console.log("Hubo un error xd")
@@ -26,7 +28,8 @@ export class AuthPageComponent {
 
   constructor(
     private _authService: AuthService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
