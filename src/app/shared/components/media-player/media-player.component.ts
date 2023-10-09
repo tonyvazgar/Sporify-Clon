@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.model';
 import { MultimediaService } from '@shared/services/multimedia.service';
 import { Subscription } from 'rxjs';
@@ -9,30 +9,23 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./media-player.component.css']
 })
 export class MediaPlayerComponent implements OnInit, OnDestroy {
-  mockCover: TrackModel = {
-    cover: 'https://www.google.com/',
-    album: 'Shakira',
-    name: 'Tuuu',
-    _id: '1',
-    url: 'https://www.google.com/',
-    duration: 333
-  }
-
+  public mockCover!: TrackModel;
+  @Input() state: string = '';
   listObservers: Array<Subscription> = [];
 
-  constructor(private _multimediaService: MultimediaService) {}
+  constructor(public multimediaService: MultimediaService) {}
 
   ngOnDestroy(): void {
-    // throw new Error('Method not implemented.');
-    // this._multimediaService.callback.unsubscribe;
-    this.listObservers.forEach( u => u.unsubscribe());
-    console.log('muriendooo');
+    this.multimediaService.trackInfo$.subscribe( response => {
+      console.log("Debo reporudcir --> ", response);
+    })
   }
 
   ngOnInit(): void {
-    const observer1$: Subscription = this._multimediaService.callback.subscribe(
+    const observer1$: Subscription = this.multimediaService.callback.subscribe(
       (response: TrackModel) => {
         console.log("recibiendo cancion....", response);
+        this.mockCover = response;
       }
     )
     this.listObservers = [observer1$];
