@@ -52,12 +52,12 @@
       </div>
       <div class="media-linetime">
 
-          <div class="time"></div>
+        <div class="time">{{multimediaService.timeElapsed$ | async}}</div>
           <span #progressBar class="time-progress">
               <span class="time-progress-live" >
               </span>
           </span>
-          <div class="time"></div>
+          <div class="time">{{multimediaService.timeRemaining$ | async}}</div>
       </div>
   </div>
 </ng-template>
