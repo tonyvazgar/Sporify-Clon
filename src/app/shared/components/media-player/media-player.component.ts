@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class MediaPlayerComponent implements OnInit, OnDestroy {
   public mockCover!: TrackModel;
-  @Input() state: string = '';
+  state: string = 'paused';
   listObservers: Array<Subscription> = [];
 
   constructor(public multimediaService: MultimediaService) {}
@@ -22,12 +22,8 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const observer1$: Subscription = this.multimediaService.callback.subscribe(
-      (response: TrackModel) => {
-        console.log("recibiendo cancion....", response);
-        this.mockCover = response;
-      }
-    )
-    this.listObservers = [observer1$];
+    const observer1$ = this.multimediaService.playerStatus$.subscribe(status => this.state = status)
+
+    this.listObservers = [observer1$]
   }
 }
